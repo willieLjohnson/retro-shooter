@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://characters/CharacterMover.gd" type="Script" id=1]
 [ext_resource path="res://characters/player/Player.gd" type="Script" id=2]
 [ext_resource path="res://characters/HealthManager.gd" type="Script" id=3]
+[ext_resource path="res://characters/player/WeaponManager.gd" type="Script" id=4]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -36,6 +37,7 @@ script = ExtResource( 3 )
 
 [node name="WeaponManager" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.73582, -0.381472 )
+script = ExtResource( 4 )
 
 [node name="Weapons" type="Spatial" parent="WeaponManager"]
 
