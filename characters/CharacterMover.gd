@@ -31,4 +31,26 @@ func set_move_vector(_move_vector: Vector3):
 	move_vector= _move_vector.normalized()
 	
 func _physics_process(delta: float) -> void:
-	pass
+	if frozen: return
+	
+	var current_move_vector = move_vector
+	if !ignore_rotation:
+		current_move_vector = current_move_vector.rotated(Vector3.UP, body_to_move.rotation.y)
+	velocity += move_acceleration * current_move_vector - velocity * Vector3(drag, 0, drag) + gravity * Vector3.DOWN * delta
+	velocity = body_to_move.move_and_slide_with_snap(velocity, snap_vector, Vector3.UP)
+	
+	var grounded = body_to_move.is_on_floor()
+	if grounded: velocity.y = -0.01
+	if grounded and pressed_jump:
+		velocity.y = jump_force
+		snap_vector = Vector3.ZERO
+	else:
+		snap_vector = Vector3.DOWN
+	pressed_jump = false
+	emit_signal("movement_info", velocity, grounded)
+	
+func freeze():
+	frozen = true
+
+func unfreeze():
+	frozen = false
